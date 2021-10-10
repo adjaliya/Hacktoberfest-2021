@@ -1,0 +1,55 @@
+from typing import List
+#defining findCombination method
+#passing combinations list, user input digits, previouse combination, current index, and list of mapping 
+def findCombinations(combinations, digit, prev, ind, mapping):
+    #if this is last digit of input numbers then new combinations will append to previouse 
+   if ind == len(digit):
+        combinations.append(prev)
+        return
+   #getting letters according to current digit of user input numbers from mapping
+   # [2]   [3]  [4]  [7]
+   #  0     1    2    3     
+   # abc   def  ghi  pqrs
+   #  3     3    3    4
+   letters = mapping[int(digit[ind])]
+    #this for loop will continue until length of letters (ex:- 2 --> 3 letters (abc))
+   for i in range(0, len(letters)):
+       #recusion 
+       #passing combination list, user input digits, [previouse combination + next letter], increasing index by one, mappiing 
+       findCombinations(combinations, digit, prev + letters[i], ind + 1, mapping)
+                                        
+#defining letterCombination method
+def letterCombinations(digit: str) -> List[str]: 
+    #creating list called combination to store finale results
+    combinations = []
+    #if user inouts are empty or leangth of digit equal to zero ----> return current combinations
+    if digit is None or len(digit) == 0:
+        return combinations
+    #create map for every single digit that can be given by user
+    #for 0 and 1 are not map to any letters
+    mapping = [
+        "",
+        "",
+        "abc",
+        "def",
+        "ghi",
+        "jkl",
+        "mno",
+        "pqrs",
+        "tuv",
+        "wxyz"
+    ]
+    #calling finfCombinations method
+    #passing combinations list, user input digits, empty string (because there are no any previouse combinations), current index, and list of mapping ---> return current combinations
+    findCombinations(combinations, digit, "", 0, mapping)
+    return combinations
+
+#get user inputs
+num = input("Enter your numbers :")
+#check length of inputs weather smaller than or equal to 4 
+if len(str(num))<=4:
+    #if condition was ture, then printing results according to inputs by calling **letterCombination method
+    print(letterCombinations(num))
+#if condition was false, then printing user inputs are invalid
+else:
+   print("Invalid input")
